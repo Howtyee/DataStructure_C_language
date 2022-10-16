@@ -1,4 +1,4 @@
-//
+// 链表
 // Created by 42516 on 2022/10/14.
 //
 
@@ -9,16 +9,50 @@
 
 #define Status int
 
+
+/*************   数据结构   ****************/
 typedef struct Lnode{
     int data;
     Lnode *next;
 
 }Lnode,*Linklist;
 
-Status Init_linklist(Linklist& Head){
+
+/*************   定义   ****************/
+
+Status Init_linklist(Linklist& Head);
+Lnode * LocateElem_linklist(Linklist Head, int e);
+int Length_linklist(Linklist Head);
+int GetElem_linklist(Linklist Head, int i);
+Status ListInsert_linklist(Linklist& Head,int i,int e);
+Status ListDelete_linklist(Linklist& Head,int i,int & e);
+Status PrintList_linklist(Linklist Head);
+bool Empty_linklist(Linklist Head);
+Status DestroyList_linklist(Linklist& Head);
+Status Create_linklist(Linklist& Head);
+
+
+
+/*************   实现   ****************/
+
+
+Status Init_linklist(Linklist &Head) {
     Head = (Linklist) malloc(sizeof(Lnode));
     Head->data = 0;
     Head->next = NULL;
+}
+
+Lnode *LocateElem_linklist(Linklist Head, int e) {
+    Lnode* p = Head;
+    while(p->next!=NULL){
+        if(p->data == e){
+            return p;
+        }
+        else{
+            p = p->next;
+        }
+    }
+    return NULL;
 }
 
 int Length_linklist(Linklist Head){
@@ -32,18 +66,6 @@ int Length_linklist(Linklist Head){
     return length;
 }
 
-Lnode* LocateElem_linklist(Linklist Head,int e){
-    Lnode* p = Head;
-    while(p->next!=NULL){
-        if(p->data == e){
-            return p;
-        }
-        else{
-            p = p->next;
-        }
-    }
-    return NULL;
-};
 
 int GetElem_linklist(Linklist Head, int i){
     Lnode* p = Head;
@@ -134,15 +156,6 @@ Status Create_linklist(Linklist& Head){
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 

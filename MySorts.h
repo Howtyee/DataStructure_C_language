@@ -1,11 +1,19 @@
-//
+// Sorts
 // Created by 42516 on 2022/10/13.
 //
 
 #ifndef CAOGAO_MYSORTS_H
 #define CAOGAO_MYSORTS_H
-int bublesort(int a[],int n)
-{
+
+/*************   定义   ****************/
+int bublesort(int a[],int n);
+int insertsort(int a[],int n);
+int quiksort(int a[],int low,int high);
+
+
+
+/*************   实现   ****************/
+int bublesort(int *a, int n) {
     int i,j,temp;
     for(i=0;i<n;i++)
     {
@@ -22,8 +30,7 @@ int bublesort(int a[],int n)
     return 0;
 }
 
-int insertsort(int a[],int n)
-{
+int insertsort(int *a, int n) {
     int i,j,temp;
     for(i=1;i<n;i++)
     {
@@ -44,7 +51,9 @@ int insertsort(int a[],int n)
     return 0;
 }
 
-int quiksort(int a[],int low,int high)
+
+
+int quiksort(int *a,int low,int high)
 {
     int i=low,j=high;
     int temp=a[low];

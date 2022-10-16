@@ -19,7 +19,7 @@ typedef struct LinkNode{
 }*Listack;
 
 
-/*************   定义   ****************/
+/*************   声明   ****************/
 Status InitStack(Listack &S);
 bool StackEmpty(Listack S);
 Status Push(Listack &S, Elemtype x);
@@ -31,7 +31,7 @@ void buildStack(Listack &S);
 void printStack(Listack S);
 
 
-/*************   实现   ****************/
+/*************   定义   ****************/
 Status InitStack(Listack &S) {
     S = (Listack)malloc(sizeof(LinkNode));
     S->data = 0;

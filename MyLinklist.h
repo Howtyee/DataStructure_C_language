@@ -18,7 +18,7 @@ typedef struct Lnode{
 }Lnode,*Linklist;
 
 
-/*************   定义   ****************/
+/*************   声明   ****************/
 
 Status Init_linklist(Linklist& Head);
 Lnode * LocateElem_linklist(Linklist Head, int e);
@@ -33,7 +33,7 @@ Status Create_linklist(Linklist& Head);
 
 
 
-/*************   实现   ****************/
+/*************   定义   ****************/
 
 
 Status Init_linklist(Linklist &Head) {

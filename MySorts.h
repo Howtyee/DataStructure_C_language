@@ -5,14 +5,14 @@
 #ifndef CAOGAO_MYSORTS_H
 #define CAOGAO_MYSORTS_H
 
-/*************   定义   ****************/
+/*************   声明   ****************/
 int bublesort(int a[],int n);
 int insertsort(int a[],int n);
 int quiksort(int a[],int low,int high);
 
 
 
-/*************   实现   ****************/
+/*************   定义   ****************/
 int bublesort(int *a, int n) {
     int i,j,temp;
     for(i=0;i<n;i++)

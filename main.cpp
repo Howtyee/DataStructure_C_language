@@ -8,10 +8,6 @@
 
 int main()
 {
-    LinkQueue h;
-    InitQueue(h);
-    buildQueue(h);
-    printQueue(h);
     return 0;
 
 }

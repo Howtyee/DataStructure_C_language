@@ -59,7 +59,7 @@ Status DeQueue(LinkQueue &Q, Elemtype &x) {
     if(QueueEmpty(Q))
         return 1;
     LinkNode * temp = Q.front->next;
-    Q.front->next = Q.front->next;
+    Q.front->next = Q.front->next->next;
     x = temp->data;
     free(temp);
     return 0;

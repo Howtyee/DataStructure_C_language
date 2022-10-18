@@ -32,6 +32,5 @@ typedef struct {//整个图
 }ALGraph;
 
 
-typedef
 
 #endif //HTY_MYGRAPH_H

@@ -26,8 +26,15 @@ typedef struct{
 }LinkQueue;
 
 /*************   声明   ****************/
+Status InitQueue(LinkQueue &Q);
+bool QueueEmpty(LinkQueue Q);
+Status EnQueue(LinkQueue &Q, BiTreeNode* x);
+Status DeQueue(LinkQueue &Q, BiTreeNode* &x);
+
+
 BiTreeNode * Create_first();
 Status Create_Level(BiTree &T);
+Status Print_Level(BiTree T);
 
 /*************   定义   ****************/
 Status InitQueue(LinkQueue &Q) {
@@ -56,6 +63,9 @@ Status DeQueue(LinkQueue &Q, BiTreeNode* &x) {
     if(QueueEmpty(Q))
         return 1;
     LinkNode * temp = Q.front->next;
+    if(temp == Q.rear){
+        Q.rear = Q.front;
+    }
     Q.front->next = Q.front->next->next;
     x = temp->data;
     free(temp);
@@ -80,51 +90,65 @@ Status Create_Level(BiTree &T) {
     InitQueue(Q);
     int data = 0;
     T = (BiTreeNode*) malloc(sizeof(BiTreeNode));
+    BiTreeNode * temp_node = 0;
+    T->lchild = nullptr;
+    T->rchild = nullptr;
     printf("data:");
     scanf("%d",&data);
     if(data){
-        EnQueue(Q,T);
+
         T->data =data;
-        T->lchild = nullptr;
-        T->rchild = nullptr;
+
+        EnQueue(Q,T);
     }
     else return 1;
     while (!QueueEmpty(Q)){
-        DeQueue(Q,T);
+        DeQueue(Q,temp_node);
         printf("ldata:");
         scanf("%d",&data);
         if(data){
-            T->lchild = (BiTreeNode*) malloc(sizeof(BiTreeNode));
-            T->lchild->data = data;
-            EnQueue(Q,T->lchild);
+            temp_node->lchild = (BiTreeNode*) malloc(sizeof(BiTreeNode));
+            temp_node->lchild->data = data;
+            EnQueue(Q,temp_node->lchild);
         }
         else
-            T->lchild = nullptr;
+            temp_node->lchild = nullptr;
 
         printf("rdata:");
         scanf("%d",&data);
         if(data){
-            T->rchild = (BiTreeNode*) malloc(sizeof(BiTreeNode));
-            T->rchild->data = data;
-            EnQueue(Q,T->rchild);
+            temp_node->rchild = (BiTreeNode*) malloc(sizeof(BiTreeNode));
+            temp_node->rchild->data = data;
+            EnQueue(Q,temp_node->rchild);
         }
         else
-            T->rchild = nullptr;
-
+            temp_node->rchild = nullptr;
     }
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }
+
+Status Print_Level(BiTree T) {
+    LinkQueue Q;
+    InitQueue(Q);
+    if(T->data) {
+        EnQueue(Q, T);
+    }
+    while(!QueueEmpty(Q)){
+        DeQueue(Q,T);
+        printf("%d ",T->data);
+        if(T->lchild != nullptr){
+            EnQueue(Q,T->lchild);
+        }
+        if(T->rchild != nullptr){
+            EnQueue(Q,T->rchild);
+        }
+    }
+    return 0;
+}
+
+
+
 
 
 #endif //HTY_HBITREE_H

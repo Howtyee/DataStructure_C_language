@@ -17,16 +17,16 @@ int main()
     BiTree t;
 //    Create_Level(t);
 
-    Create_first(t);
+    Create_front(t);
     Print_Level(t);
     cout<<endl;
 
-    Print_first(t);
+    Print_front_stack(t);
     cout<<endl;
-    Print_middle(t);
+    Print_middle_stack(t);
     cout<<endl;
 
-    Print_after(t);
+    Print_after_stack(t);
     return 0;
 
 }

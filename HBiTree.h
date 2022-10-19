@@ -25,25 +25,79 @@ typedef struct{
     LinkNode *front,*rear;
 }LinkQueue;
 
-/*************   声明   ****************/
+typedef struct StackNode{
+    BiTreeNode * data;
+    StackNode* next;
+}*Listack;
+
+/*************   辅助声明   ****************/
 Status InitQueue(LinkQueue &Q);
 bool QueueEmpty(LinkQueue Q);
 Status EnQueue(LinkQueue &Q, BiTreeNode* x);
 Status DeQueue(LinkQueue &Q, BiTreeNode* &x);
 
+Status InitStack(Listack &S);
+bool StackEmpty(Listack S);
+Status Push(Listack &S, BiTreeNode* x);
+Status Pop(Listack &S, BiTreeNode* &x);
 
-Status Create_first(BiTree &T);   //先序建立
+/*************   声明   ****************/
+
+Status Create_front(BiTree &T);   //先序建立
 Status Create_Level(BiTree &T);   //层次建立
 
-Status Print_first(BiTree T);     //先序遍历
+Status Print_front(BiTree T);     //先序遍历
 Status Print_middle(BiTree T);     //中序遍历
 Status Print_after(BiTree T);     //后序遍历
 Status Print_Level(BiTree T);     //层次遍历
 Status visit(BiTreeNode* Node);   //访问节点函数
 
-/*************   定义   ****************/
+Status Print_front_stack(BiTree T);     //先序遍历非递归
+Status Print_middle_stack(BiTree T);     //中序遍历非递归
+Status Print_after_stack(BiTree T);     //后序遍历非递归
+
+/*************   辅助定义   ****************/
 Status visit(BiTreeNode* Node){
     printf("%d ",Node->data);
+    return 0;
+}
+
+Status InitStack(Listack &S) {
+    S = (Listack)malloc(sizeof(StackNode));
+    S->data = 0;
+    S->next = nullptr;
+    return 0;
+}
+bool StackEmpty(Listack S) {
+    if(S->next == nullptr){
+        return true;
+    }
+    else
+        return false;
+}
+
+Status Push(Listack &S, BiTreeNode* x) {
+    StackNode * New_node = (StackNode*) malloc(sizeof(StackNode));
+    New_node->data = x;
+    New_node->next = S->next;
+    S->next = New_node;
+    return 0;
+}
+
+Status Pop(Listack &S, BiTreeNode* &x) {
+    if(StackEmpty(S))
+        return 1;
+    StackNode *Tobe_pop = S->next;
+    S->next = S->next->next;
+    x = Tobe_pop->data;
+    free(Tobe_pop);
+    return 0;
+}
+
+Status GetTop(Listack S, BiTreeNode* &x) {
+    if(StackEmpty(S))
+        return 1;
+    x = S->next->data;
     return 0;
 }
 
@@ -82,6 +136,8 @@ Status DeQueue(LinkQueue &Q, BiTreeNode* &x) {
     free(temp);
     return 0;
 }
+
+/*************   定义   ****************/
 
 Status Create_Level(BiTree &T) {
     LinkQueue Q;
@@ -145,7 +201,7 @@ Status Print_Level(BiTree T) {
     return 0;
 }
 
-Status Create_first(BiTree &T){
+Status Create_front(BiTree &T){
 
     int a;
     printf("input:");
@@ -156,17 +212,17 @@ Status Create_first(BiTree &T){
     else {
         T = (BiTree) malloc(sizeof(BiTree));//动态分配内存
         T->data = a;
-        Create_first(T->lchild);//创建左子树
-        Create_first(T->rchild);//创建右子树
+        Create_front(T->lchild);//创建左子树
+        Create_front(T->rchild);//创建右子树
     }
     return 0;
 }
 
-Status Print_first(BiTree T) {
+Status Print_front(BiTree T) {
     if(T!= nullptr){
         visit(T);
-        Print_first(T->lchild);
-        Print_first(T->rchild);
+        Print_front(T->lchild);
+        Print_front(T->rchild);
     }
     return 0;
 }
@@ -183,6 +239,67 @@ Status Print_after(BiTree T) {
         Print_after(T->lchild);
         Print_after(T->rchild);
         visit(T);
+    }
+    return 0;
+}
+Status Print_front_stack(BiTree T) {
+    Listack S;
+    InitStack(S);
+    BiTreeNode* p = T;
+    while(p || !StackEmpty(S)){
+        if(p){
+            visit(p);
+            Push(S,p);
+            p = p->lchild;
+        }
+        else{
+            Pop(S,p);
+            p = p->rchild;
+        }
+    }
+    return 0;
+}
+
+Status Print_middle_stack(BiTree T) {
+    Listack S;
+    InitStack(S);
+    BiTreeNode* p = T;
+    while(p || !StackEmpty(S)){
+        if(p){
+            Push(S,p);
+            p = p->lchild;
+        }
+        else{
+            Pop(S,p);
+            visit(p);
+            p = p->rchild;
+        }
+    }
+    return 0;
+}
+
+Status Print_after_stack(BiTree T) {
+    Listack S;
+    InitStack(S);
+    BiTreeNode* p = T;
+    BiTreeNode* r = nullptr;  //记录上一次访问的节点
+    while(p || !StackEmpty(S)){
+        if(p){
+            Push(S,p);
+            p = p->lchild;
+        }
+        else{
+            GetTop(S,p);
+            if(p->rchild && p->rchild != r){ //右存在且未被访问过
+                p = p->rchild;
+            }
+            else{
+                Pop(S,p);
+                visit(p);
+                r = p;
+                p = nullptr; //遍历完以该节点为根的子树，置空p
+            }
+        }
     }
     return 0;
 }

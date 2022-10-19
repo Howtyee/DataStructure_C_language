@@ -32,11 +32,22 @@ Status EnQueue(LinkQueue &Q, BiTreeNode* x);
 Status DeQueue(LinkQueue &Q, BiTreeNode* &x);
 
 
-BiTreeNode * Create_first();
-Status Create_Level(BiTree &T);
-Status Print_Level(BiTree T);
+Status Create_first(BiTree &T);   //先序建立
+Status Create_Level(BiTree &T);   //层次建立
+
+Status Print_first(BiTree T);     //先序遍历
+Status Print_middle(BiTree T);     //中序遍历
+Status Print_after(BiTree T);     //后序遍历
+Status Print_Level(BiTree T);     //层次遍历
+Status visit(BiTreeNode* Node);   //访问节点函数
 
 /*************   定义   ****************/
+Status visit(BiTreeNode* Node){
+    printf("%d ",Node->data);
+    return 0;
+}
+
+
 Status InitQueue(LinkQueue &Q) {
     Q.front = (LinkNode*)malloc(sizeof(LinkNode));
     Q.rear = Q.front;
@@ -70,19 +81,6 @@ Status DeQueue(LinkQueue &Q, BiTreeNode* &x) {
     x = temp->data;
     free(temp);
     return 0;
-}
-BiTreeNode * Create_first(){
-    BiTree T;
-    int a;
-    scanf("%d", &a);
-    if (a == '.') return nullptr;//当输入.时表示这个结点为空，而且没有左右子树。
-    else {
-        T = (BiTree) malloc(sizeof(BiTree));//动态分配内存
-        T->data = a;
-        T->lchild = Create_first();//创建左子树
-        T->rchild = Create_first();//创建右子树
-    }
-    return T;
 }
 
 Status Create_Level(BiTree &T) {
@@ -147,8 +145,46 @@ Status Print_Level(BiTree T) {
     return 0;
 }
 
+Status Create_first(BiTree &T){
 
+    int a;
+    printf("input:");
+    scanf("%d", &a);
+    if (a == 0) {
+        T = nullptr;
+    } //当输入.时表示这个结点为空，而且没有左右子树。
+    else {
+        T = (BiTree) malloc(sizeof(BiTree));//动态分配内存
+        T->data = a;
+        Create_first(T->lchild);//创建左子树
+        Create_first(T->rchild);//创建右子树
+    }
+    return 0;
+}
 
-
+Status Print_first(BiTree T) {
+    if(T!= nullptr){
+        visit(T);
+        Print_first(T->lchild);
+        Print_first(T->rchild);
+    }
+    return 0;
+}
+Status Print_middle(BiTree T) {
+    if(T!= nullptr){
+        Print_middle(T->lchild);
+        visit(T);
+        Print_middle(T->rchild);
+    }
+    return 0;
+}
+Status Print_after(BiTree T) {
+    if(T!= nullptr){
+        Print_after(T->lchild);
+        Print_after(T->rchild);
+        visit(T);
+    }
+    return 0;
+}
 
 #endif //HTY_HBITREE_H

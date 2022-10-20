@@ -13,7 +13,7 @@
 typedef struct ThreadBiTreeNode{
     int data;
     struct ThreadBiTreeNode *lchild,*rchild;
-    int ltag,rtag;
+    int ltag = 0,rtag = 0;
 }ThreadBiTreeNode,*ThreadBiTree;
 
 typedef struct LinkNode{
@@ -37,6 +37,7 @@ Status DeQueue(LinkQueue &Q, ThreadBiTreeNode* &x);
 
 Status Create_Level(ThreadBiTree &T);   //层次建立
 Status Print_Level(ThreadBiTree T);     //层次遍历
+Status CreatInThread(ThreadBiTree &T);
 
 
 
@@ -142,4 +143,33 @@ Status Print_Level(ThreadBiTree T) {
     }
     return 0;
 }
+
+void InThread(ThreadBiTree &T, ThreadBiTree &pre){
+    if(T != nullptr){
+        InThread(T->lchild,pre);
+        if(T->lchild == nullptr){
+            T->lchild = pre;
+            T->ltag = 1;
+        }
+        if(pre!= nullptr && pre->rchild == nullptr){
+            pre->rchild = T;
+            pre->rtag = 1;
+        }
+        pre = T;
+        InThread(T->rchild,pre);
+    }
+}
+
+Status CreatInThread(ThreadBiTree &T) {
+    ThreadBiTree pre = nullptr;
+    if(T != nullptr){
+        InThread(T,pre);
+        pre->rchild = nullptr;
+        pre->rtag = 1;
+    }
+
+
+    return 0;
+}
+
 #endif //HTY_THREADBITREE_H

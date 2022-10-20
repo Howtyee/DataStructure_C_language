@@ -40,6 +40,7 @@ Status InitStack(Listack &S);
 bool StackEmpty(Listack S);
 Status Push(Listack &S, BiTreeNode* x);
 Status Pop(Listack &S, BiTreeNode* &x);
+Status GetTop(Listack S, BiTreeNode* &x);
 
 /*************   声明   ****************/
 
@@ -55,6 +56,7 @@ Status visit(BiTreeNode* Node);   //访问节点函数
 Status Print_front_stack(BiTree T);     //先序遍历非递归
 Status Print_middle_stack(BiTree T);     //中序遍历非递归
 Status Print_after_stack(BiTree T);     //后序遍历非递归
+
 
 /*************   辅助定义   ****************/
 Status visit(BiTreeNode* Node){

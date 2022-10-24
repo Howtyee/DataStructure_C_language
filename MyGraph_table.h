@@ -1,18 +1,13 @@
 //
-// Created by 42516 on 2022/10/16.
+// Created by 42516 on 2022/10/24.
 //
 
-#ifndef HTY_MYGRAPH_H
-#define HTY_MYGRAPH_H
-#define MaxVertexNum 100
+#ifndef HTY_MYGRAPH_TABLE_H
+#define HTY_MYGRAPH_TABLE_H
 
-typedef char VerTexType;
-typedef int EdgeType;
-typedef struct {
-    VerTexType Vex[MaxVertexNum];
-    EdgeType Edge[MaxVertexNum][MaxVertexNum];
-    int vexnum,arcnum;
-}MGraph;
+#define MaxVertexNum 100
+typedef int VerTexType;
+
 
 
 //Link table
@@ -33,4 +28,5 @@ typedef struct {//整个图
 
 
 
-#endif //HTY_MYGRAPH_H
+
+#endif //HTY_MYGRAPH_TABLE_H

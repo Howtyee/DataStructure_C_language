@@ -6,7 +6,7 @@
 #define CAOGAO_MYDATASTRUCTURE_H
 #define MAXSIZE 30
 #define STATUS int
-
+#include <stdio.h>
 
 
 typedef struct Seqlist{

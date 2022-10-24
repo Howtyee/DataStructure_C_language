@@ -38,6 +38,7 @@ Status DeQueue(LinkQueue &Q, ThreadBiTreeNode* &x);
 Status Create_Level(ThreadBiTree &T);   //层次建立
 Status Print_Level(ThreadBiTree T);     //层次遍历
 Status CreatInThread(ThreadBiTree &T);
+Status Print_Thread(ThreadBiTree T);
 
 
 
@@ -169,6 +170,10 @@ Status CreatInThread(ThreadBiTree &T) {
     }
 
 
+    return 0;
+}
+
+Status Print_Thread(ThreadBiTree T) {
     return 0;
 }
 

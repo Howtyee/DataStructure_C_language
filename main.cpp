@@ -5,7 +5,8 @@
 //#include "MyStack.h"
 //#include "HBiTree.h"
 //#include"MyQueue.h"
-#include "ThreadBitree.h"
+//#include "ThreadBitree.h"
+#include "MyGraph_matrix.h"
 #include<iostream>
 using namespace std;
 
@@ -14,9 +15,8 @@ using namespace std;
 
 int main()
 {
-    ThreadBiTree t;
-    Create_Level(t);
-    Print_Level(t);
+    MGraph t;
+
 
     return 0;
 

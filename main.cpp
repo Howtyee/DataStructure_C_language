@@ -17,8 +17,16 @@ int main()
 {
     MGraph t;
     Creat_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
     Print_MGraph(t);
 
+    InsertVertex(t,'D');
+    cout << t.arcnum << " " << t.vexnum << endl;
+    Print_MGraph(t);
+
+    DeleteVertex(t,'A');
+    cout << t.arcnum << " " << t.vexnum << endl;
+    Print_MGraph(t);
 
 
     return 0;

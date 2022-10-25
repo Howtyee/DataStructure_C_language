@@ -17,10 +17,20 @@ typedef struct {
 }MGraph;
 /*************   定义   ****************/
 int LocateVex(MGraph G,char vex);
-Status Creat_MGraph(MGraph* G);
+Status Creat_MGraph(MGraph &G,bool Dir,bool Kon);
 bool Adjacent(MGraph G,int a,int b);
-int* Neighbors(MGraph G, VerTexType x);
+void Neighbors(MGraph G, char x);
 void Print_MGraph(MGraph G);
+
+Status InsertVertex(MGraph &G,char x);
+Status DeleteVertex(MGraph &G,char x,bool Dir);
+Status AddEdge(MGraph &G,char a,char b);
+Status RemoveEdge(MGraph &G,char a,char b);
+int FirstNeighbor(MGraph G,char x);
+int NextNeighbor(MGraph G,char x,char y);
+Status Get_edge_value(MGraph &G,char x,char y);
+Status Set_edge_value(MGraph &G,char x,char y,int v);
+
 
 
 
@@ -104,18 +114,13 @@ bool Adjacent(MGraph G, int a, int b) {
 
 
 
-int *Neighbors(MGraph G, VerTexType x) {
-    for(int i = 0; i<=G.vexnum;i++){
-        if(G.Vex[i] == x){
-            for(int p = 0;p < G.vexnum;p++){
-                if(G.Edge[i][p]!=0){
-                    printf("%c ",G.Vex[p]);
-                }
-            }
+void Neighbors(MGraph G, char x) {
+    int loc = LocateVex(G,x);
+    for(int i = 0; i<G.vexnum;i++){
+        if(G.Edge[loc][i]){
+            printf("%c",G.Vex[i]);
         }
     }
-
-    return nullptr;
 }
 
 void Print_MGraph(MGraph G) {
@@ -131,6 +136,43 @@ void Print_MGraph(MGraph G) {
         }
         printf("\n");
     }
+}
+
+Status InsertVertex(MGraph &G, char x) {
+    G.Vex[G.vexnum] = x;
+    G.vexnum++;
+    return 0;
+}
+
+Status DeleteVertex(MGraph &G, char x,bool Dir = false) {
+    int vex_count = 0;
+    int loc = LocateVex(G,x);
+    for(int i = loc;i<G.vexnum;i++){
+        G.Vex[i] = G.Vex[i+1];
+    }
+    for(int i = 0;i<G.vexnum;i++){
+        if(G.Edge[loc][i])
+            vex_count++;
+        if(G.Edge[i][loc])
+            vex_count++;
+    }
+    for(int i = 0;i<=loc;i++){
+        for(int j = loc;j<=G.vexnum;j++){
+            G.Edge[i][j] = G.Edge[i][j+1];
+            G.Edge[j][i] = G.Edge[j+1][i];
+        }
+    }
+    for(int i = loc;i<=G.vexnum;i++){
+        for(int j = loc;j<=G.vexnum;j++){
+            G.Edge[i][j] = G.Edge[i+1][j+1];
+        }
+    }
+    G.vexnum--;
+    if(!Dir)
+        G.arcnum = G.arcnum-(vex_count/2);
+    else
+        G.arcnum = G.arcnum-vex_count;
+    return 0;
 }
 
 

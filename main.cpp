@@ -20,15 +20,10 @@ int main()
     cout << t.arcnum << " " << t.vexnum << endl;
     Print_MGraph(t);
 
-    InsertVertex(t,'D');
-    cout << t.arcnum << " " << t.vexnum << endl;
-    Print_MGraph(t);
 
-    DeleteVertex(t,'A');
-    cout << t.arcnum << " " << t.vexnum << endl;
-    Print_MGraph(t);
 
+    int x = FirstNeighbor(t,'A');
+    cout << x;
 
     return 0;
-
 }

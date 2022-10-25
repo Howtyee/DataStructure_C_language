@@ -169,11 +169,26 @@ Status CreatInThread(ThreadBiTree &T) {
         pre->rtag = 1;
     }
 
-
     return 0;
 }
 
+ThreadBiTreeNode *Firstnode(ThreadBiTreeNode *p){
+    while(p->ltag==0){
+        p = p->lchild;
+    }
+    return p;
+}
+
+ThreadBiTreeNode *Nextnode(ThreadBiTreeNode *p){
+    if(p->rtag==0){
+        return Firstnode(p->rchild);
+    }
+    else
+        return p->rchild;
+}
+
 Status Print_Thread(ThreadBiTree T) {
+
     return 0;
 }
 

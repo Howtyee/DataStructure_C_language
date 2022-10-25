@@ -16,6 +16,9 @@ using namespace std;
 int main()
 {
     MGraph t;
+    Creat_MGraph(t);
+    Print_MGraph(t);
+
 
 
     return 0;

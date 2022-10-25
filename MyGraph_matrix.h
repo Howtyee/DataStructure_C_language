@@ -17,25 +17,19 @@ typedef struct {
 }MGraph;
 /*************   定义   ****************/
 int LocateVex(MGraph G,char vex);
-Status Creat_MGraph(MGraph &G,bool Dir,bool Kon);
+Status Creat_MGraph(MGraph &G,bool Dir,bool Kon); //Dir:是有向图 Kon:带权重
 bool Adjacent(MGraph G,int a,int b);
 void Neighbors(MGraph G, char x);
 void Print_MGraph(MGraph G);
 
 Status InsertVertex(MGraph &G,char x);
 Status DeleteVertex(MGraph &G,char x,bool Dir);
-Status AddEdge(MGraph &G,char a,char b);
-Status RemoveEdge(MGraph &G,char a,char b);
+Status AddEdge(MGraph &G,char a,char b,bool Dir);
+Status RemoveEdge(MGraph &G,char a,char b,bool Dir);
 int FirstNeighbor(MGraph G,char x);
 int NextNeighbor(MGraph G,char x,char y);
 Status Get_edge_value(MGraph &G,char x,char y);
 Status Set_edge_value(MGraph &G,char x,char y,int v);
-
-
-
-
-
-
 
 
 
@@ -172,6 +166,44 @@ Status DeleteVertex(MGraph &G, char x,bool Dir = false) {
         G.arcnum = G.arcnum-(vex_count/2);
     else
         G.arcnum = G.arcnum-vex_count;
+    return 0;
+}
+
+Status AddEdge(MGraph &G, char a, char b,bool Dir) {
+    if(a > G.vexnum||b > G.vexnum)
+        return 1;
+    if(!Dir){
+        G.Edge[a][b] = 1;
+        G.Edge[b][a] = 1;
+    }
+    else{
+        G.Edge[a][b] = 1;
+    }
+    G.arcnum++;
+    return 0;
+}
+
+Status RemoveEdge(MGraph &G, char a, char b,bool Dir) {
+    if(a > G.vexnum||b > G.vexnum)
+        return 1;
+    if(!Dir){
+        if(G.Edge[a][b]==0 && G.Edge[b][a]==0){
+            return 1;
+        }
+        G.Edge[a][b] = 0;
+        G.Edge[b][a] = 0;
+    }
+    else{
+        if(G.Edge[a][b]==0){
+            return 1;
+        }
+        G.Edge[a][b] = 0;
+    }
+    G.arcnum --;
+    return 0;
+}
+
+int FirstNeighbor(MGraph G, char x) {
     return 0;
 }
 

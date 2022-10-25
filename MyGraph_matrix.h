@@ -28,8 +28,8 @@ Status AddEdge(MGraph &G,char a,char b,bool Dir);
 Status RemoveEdge(MGraph &G,char a,char b,bool Dir);
 int FirstNeighbor(MGraph G,char x);
 int NextNeighbor(MGraph G,char x,char y);
-Status Get_edge_value(MGraph &G,char x,char y);
-Status Set_edge_value(MGraph &G,char x,char y,int v);
+int Get_edge_value(MGraph &G,char x,char y);
+Status Set_edge_value(MGraph &G,char x,char y,int v,bool Dir);
 
 
 
@@ -223,6 +223,25 @@ int NextNeighbor(MGraph G, char x, char y) {
                 return i;
         }
     return -1;
+}
+
+int Get_edge_value(MGraph &G, char x, char y) {
+    int locx = LocateVex(G,x);
+    int locy = LocateVex(G,y);
+    return G.Edge[locx][locy];
+
+}
+
+Status Set_edge_value(MGraph &G, char x, char y, int v, bool Dir) {
+    int locx = LocateVex(G,x);
+    int locy = LocateVex(G,y);
+    if(!Dir){
+        G.Edge[locx][locy] = v;
+        G.Edge[locy][locx] = v;
+    }
+    else
+        G.Edge[locx][locy] = v;
+    return 0;
 }
 
 

@@ -204,7 +204,25 @@ Status RemoveEdge(MGraph &G, char a, char b,bool Dir) {
 }
 
 int FirstNeighbor(MGraph G, char x) {
-    return 0;
+    int loc = LocateVex(G,x);
+    for(int i = 0;i<G.vexnum;i++){
+        if(G.Edge[loc][i])
+            return i;
+    }
+    return -1;
+}
+
+int NextNeighbor(MGraph G, char x, char y) {
+    int locx = LocateVex(G,x);
+    int locy = LocateVex(G,y);
+    if(G.Edge[locx][locy] == 0)
+        return -1;
+    else
+        for(int i = locy+1;i < G.vexnum;i++){
+            if(G.Edge[locx][i])
+                return i;
+        }
+    return -1;
 }
 
 

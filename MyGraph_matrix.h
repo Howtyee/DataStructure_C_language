@@ -21,7 +21,7 @@ typedef struct {
 /*************   定义   ****************/
 int LocateVex(MGraph G,char vex);
 Status Creat_MGraph(MGraph &G,bool Dir,bool Kon); //Dir:是有向图 Kon:带权重
-bool Adjacent(MGraph G,int a,int b);
+bool Adjacent(MGraph G,char x,char y);
 void Neighbors(MGraph G, char x);
 void Print_MGraph(MGraph G);
 
@@ -100,7 +100,9 @@ Status Creat_MGraph(MGraph &G,bool Dir = false,bool Kon = false) {  //Dir:有向
 }
 
 
-bool Adjacent(MGraph G, int a, int b) {
+bool Adjacent(MGraph G, char x, char y) {
+    int a = LocateVex(G,x);
+    int b = LocateVex(G,y);
     int aim = G.Edge[a][b];
     if(aim){
         return true;

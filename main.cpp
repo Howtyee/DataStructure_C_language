@@ -18,9 +18,16 @@ int main()
 {
     setbuf(stdout, 0);
     ALGraph t;
-    Creat_MGraph(t,1,1);
-    Print_MGraph(t,1);
+    Creat_MGraph(t);
+    Print_MGraph(t);
     cout << t.arcnum << " " << t.vexnum << endl;
+    InsertVertex(t,'D');
+    Print_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
+    DeleteVertex(t,'B');
+    Print_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
+
 
 
 

@@ -27,7 +27,7 @@ void Print_MGraph(MGraph G);
 
 Status InsertVertex(MGraph &G,char x);
 Status DeleteVertex(MGraph &G,char x,bool Dir);
-Status AddEdge(MGraph &G,char a,char b,bool Dir);
+Status AddEdge(MGraph &G,char a,char b,bool Dir,int k);
 Status RemoveEdge(MGraph &G,char a,char b,bool Dir);
 int FirstNeighbor(MGraph G,char x);
 int NextNeighbor(MGraph G,char x,char y);
@@ -174,15 +174,15 @@ Status DeleteVertex(MGraph &G, char x,bool Dir = false) {
     return 0;
 }
 
-Status AddEdge(MGraph &G, char a, char b,bool Dir) {
+Status AddEdge(MGraph &G, char a, char b,bool Dir,int k=1) {
     if(a > G.vexnum||b > G.vexnum)
         return 1;
     if(!Dir){
-        G.Edge[a][b] = 1;
-        G.Edge[b][a] = 1;
+        G.Edge[a][b] = k;
+        G.Edge[b][a] = k;
     }
     else{
-        G.Edge[a][b] = 1;
+        G.Edge[a][b] = k;
     }
     G.arcnum++;
     return 0;

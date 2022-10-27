@@ -27,7 +27,9 @@ int main()
     DeleteVertex(t,'B');
     Print_MGraph(t);
     cout << t.arcnum << " " << t.vexnum << endl;
-
+    AddEdge(t,'A','C');
+    Print_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
 
 
 

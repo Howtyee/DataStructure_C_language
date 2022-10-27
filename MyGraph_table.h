@@ -16,7 +16,7 @@
 //Link table
 typedef struct ArcNode{ //串起来的每条边
     int adjvex;
-    int k = NULL;             //kon
+    int k = 1;             //kon
     ArcNode* next;
 }ArcNode;
 
@@ -39,7 +39,7 @@ void Print_MGraph(ALGraph G,bool Kon);
 
 Status InsertVertex(ALGraph &G,char x);
 Status DeleteVertex(ALGraph &G,char x);
-Status AddEdge(ALGraph &G,char a,char b,bool Dir);
+Status AddEdge(ALGraph &G,char a,char b,bool Dir,int k); //k 权重
 Status RemoveEdge(ALGraph &G,char a,char b,bool Dir);
 int FirstNeighbor(ALGraph G,char x);
 int NextNeighbor(ALGraph G,char x,char y);
@@ -82,13 +82,14 @@ Status Creat_MGraph(ALGraph &G, bool Dir = false, bool Kon = false) {
 
                 ArcNode * new_one = (ArcNode *)malloc(sizeof(ArcNode));
                 new_one->adjvex = b_num;
-                new_one->k = NULL;
+                new_one->k = 1;
                 new_one->next = G.vertices[a_num].first;
                 G.vertices[a_num].first = new_one;
                 G.arcnum++;
 
                 ArcNode * new_two = (ArcNode *)malloc(sizeof(ArcNode));
                 new_two->adjvex = a_num;
+                new_two->k = 1;
                 new_two->next = G.vertices[b_num].first;
                 G.vertices[b_num].first = new_two;
                 G.arcnum++;
@@ -101,7 +102,7 @@ Status Creat_MGraph(ALGraph &G, bool Dir = false, bool Kon = false) {
 
                 ArcNode * new_one = (ArcNode *)malloc(sizeof(ArcNode));
                 new_one->adjvex = b_num;
-                new_one->k = NULL;
+                new_one->k = 1;
                 new_one->next = G.vertices[a_num].first;
                 G.vertices[a_num].first = new_one;
                 G.arcnum++;
@@ -242,6 +243,78 @@ Status DeleteVertex(ALGraph &G, char x) {
                 edge = edge->next;
         }
     }
+    return 0;
+}
+
+Status AddEdge(ALGraph &G, char a, char b, bool Dir = false ,int k=1) {
+    int loc_a = LocateVex(G,a);
+    int loc_b = LocateVex(G,b);
+    if(!Dir){
+        ArcNode * edge = G.vertices[loc_a].first;
+        if(edge == nullptr){
+            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+            new_one->adjvex =loc_b;
+            new_one->next = nullptr;
+            new_one->k = k;
+            G.vertices[loc_a].first = new_one;
+            G.vexnum++;
+        }
+        else{
+            while(edge->next!= nullptr){
+                edge = edge->next;
+            }
+            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+            new_one->adjvex =loc_b;
+            new_one->next = nullptr;
+            new_one->k = k;
+            edge->next = new_one;
+            G.vexnum++;
+        }
+
+        ArcNode * edge2 = G.vertices[loc_b].first;
+        if(edge2 == nullptr){
+            ArcNode * new_two = (ArcNode*) malloc(sizeof(ArcNode));
+            new_two->adjvex =loc_a;
+            new_two->next = nullptr;
+            new_two->k = k;
+            G.vertices[loc_b].first = new_two;
+            G.vexnum++;
+        }
+        else{
+            while(edge2->next!= nullptr){
+                edge2 = edge2->next;
+            }
+            ArcNode * new_two = (ArcNode*) malloc(sizeof(ArcNode));
+            new_two->adjvex =loc_a;
+            new_two->next = nullptr;
+            new_two->k = k;
+            edge2->next = new_two;
+            G.vexnum++;
+        }
+    }
+    else{
+        ArcNode * edge = G.vertices[loc_a].first;
+        if(edge == nullptr){
+            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+            new_one->adjvex =loc_b;
+            new_one->next = nullptr;
+            new_one->k = k;
+            G.vertices[loc_a].first = new_one;
+            G.vexnum++;
+        }
+        else{
+            while(edge->next!= nullptr){
+                edge = edge->next;
+            }
+            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+            new_one->adjvex =loc_b;
+            new_one->next = nullptr;
+            new_one->k = k;
+            edge->next = new_one;
+            G.vexnum++;
+        }
+    }
+
     return 0;
 }
 

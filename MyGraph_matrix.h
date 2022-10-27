@@ -4,6 +4,9 @@
 
 #ifndef HTY_MYGRAPH_MATRIX_H
 #define HTY_MYGRAPH_MATRIX_H
+
+#include <cstdio>
+
 #define MaxVertexNum 100
 
 #define Status int
@@ -43,7 +46,7 @@ int LocateVex(MGraph G,char vex) {
 }
 
 Status Creat_MGraph(MGraph &G,bool Dir = false,bool Kon = false) {  //Dir:有向图 Kon:权重
-    char tempa,tempb = 0;
+    char tempa,tempb;
     int qz = 0;
     printf("input vex num:");
     scanf("%d",&G.vexnum);

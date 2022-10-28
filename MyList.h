@@ -8,15 +8,19 @@
 #define STATUS int
 #include <stdio.h>
 
-
+/*************   数据结构   ****************/
 typedef struct Seqlist{
     int data[MAXSIZE];
     int top = 0;
 }Seqlist;
 
-
+/*************   声明   ****************/
 bool Is_full(Seqlist List);
+STATUS InitList(Seqlist &List);
+void PrintList(Seqlist List);
+int Pop_num(Seqlist &List);
 
+/*************   定义   ****************/
 STATUS InitList(Seqlist &List){
     List.top = 0;
 }

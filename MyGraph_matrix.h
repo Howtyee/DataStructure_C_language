@@ -18,7 +18,7 @@ typedef struct {
     int Edge[MaxVertexNum][MaxVertexNum] = {0};
     int vexnum,arcnum;
 }MGraph;
-/*************   定义   ****************/
+/*************   声明   ****************/
 int LocateVex(MGraph G,char vex);
 Status Creat_MGraph(MGraph &G,bool Dir,bool Kon); //Dir:是有向图 Kon:带权重
 bool Adjacent(MGraph G,char x,char y);
@@ -36,7 +36,7 @@ Status Set_edge_value(MGraph &G,char x,char y,int v,bool Dir);
 
 
 
-/*************   声明   ****************/
+/*************   定义   ****************/
 int LocateVex(MGraph G,char vex) {
     for (int i = 0; i < G.vexnum; i++) {
         if (G.Vex[i] == vex)

@@ -9,7 +9,7 @@
 #include <cstdio>
 
 #define Status int
-
+/*************   数据结构   ****************/
 typedef struct ThreadBiTreeNode{
     int data;
     struct ThreadBiTreeNode *lchild,*rchild;

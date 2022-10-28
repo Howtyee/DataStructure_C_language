@@ -179,7 +179,7 @@ void Print_MGraph(ALGraph G, bool Kon=false) {
             ArcNode * edge = G.vertices[i].first;
             while(edge != nullptr){
                 printf("%c",G.vertices[edge->adjvex].data);
-                printf("--->");
+                printf("->");
                 edge = edge->next;
             }
             printf("^\n");
@@ -393,6 +393,7 @@ Status Set_edge_value(ALGraph &G, char x, char y, int v, bool Dir=false) {
     }
     return 0;
 }
+
 
 
 #endif //HTY_MYGRAPH_TABLE_H

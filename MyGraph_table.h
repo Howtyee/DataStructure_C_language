@@ -230,6 +230,7 @@ Status DeleteVertex(ALGraph &G, char x) {
             G.vertices[i].first = edge->next;
             edge = edge->next;
             free(p);
+            G.arcnum--;
         }
         edge = G.vertices[i].first;
         while(edge!= nullptr && edge->next!= nullptr){//如果有第一个节点但第一个节点不用被删，检查之后的节点
@@ -304,6 +305,7 @@ Status RemoveEdge(ALGraph &G, char a, char b, bool Dir=false) {
         G.vertices[loc_a].first = edge->next;
         edge = edge->next;
         free(p);
+        G.arcnum--;
     }
     edge = G.vertices[loc_a].first;
     while(edge!= nullptr && edge->next!= nullptr){//如果有第一个节点但第一个节点不用被删，检查之后的节点
@@ -323,6 +325,7 @@ Status RemoveEdge(ALGraph &G, char a, char b, bool Dir=false) {
             G.vertices[loc_b].first = edge->next;
             edge = edge->next;
             free(p);
+            G.arcnum--;
         }
         edge = G.vertices[loc_b].first;
         while(edge!= nullptr && edge->next!= nullptr){//如果有第一个节点但第一个节点不用被删，检查之后的节点
@@ -334,6 +337,58 @@ Status RemoveEdge(ALGraph &G, char a, char b, bool Dir=false) {
             }
             else
                 edge = edge->next;
+        }
+    }
+    return 0;
+}
+
+int FirstNeighbor(ALGraph G, char x) {
+    int loc_x = LocateVex(G,x);
+    if(G.vertices[loc_x].first){
+        return G.vertices[G.vertices[loc_x].first->adjvex].data;
+    }
+    return -1;
+}
+
+int NextNeighbor(ALGraph G, char x, char y) {
+    int loc_x = LocateVex(G,x);
+    int loc_y = LocateVex(G,y);
+    ArcNode * edge = G.vertices[loc_x].first;
+    if(edge!= nullptr){
+        if(edge->adjvex == loc_y && edge->next!= nullptr){
+            return G.vertices[edge->next->adjvex].data;
+        }
+    }
+    return -1;
+}
+
+int Get_edge_value(ALGraph &G, char x, char y) {
+    int loc_x = LocateVex(G,x);
+    int loc_y = LocateVex(G,y);
+    ArcNode * edge = G.vertices[loc_x].first;
+    if(edge!= nullptr){
+        if(edge->adjvex == loc_y){
+            return edge->k;
+        }
+    }
+    return 0;
+}
+
+Status Set_edge_value(ALGraph &G, char x, char y, int v, bool Dir=false) {
+    int loc_x = LocateVex(G,x);
+    int loc_y = LocateVex(G,y);
+    ArcNode * edge = G.vertices[loc_x].first;
+    if(edge!= nullptr){
+        if(edge->adjvex == loc_y){
+            edge->k = v;
+        }
+    }
+    if(!Dir){
+        ArcNode * edge = G.vertices[loc_y].first;
+        if(edge!= nullptr){
+            if(edge->adjvex == loc_x){
+                edge->k = v;
+            }
         }
     }
     return 0;

@@ -33,9 +33,11 @@ int main()
     AddEdge(t,'A','D');
     Print_MGraph(t);
     cout << t.arcnum << " " << t.vexnum << endl;
-    RemoveEdge(t,'A','C');
-    Print_MGraph(t);
-    cout << t.arcnum << " " << t.vexnum << endl;
+
+    char x = FirstNeighbor(t,'A');
+    char y = NextNeighbor(t,'A','C');
+    Set_edge_value(t,'A','C',100);
+    cout << x << y;
 
 
 

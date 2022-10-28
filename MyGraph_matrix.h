@@ -212,7 +212,7 @@ int FirstNeighbor(MGraph G, char x) {
     int loc = LocateVex(G,x);
     for(int i = 0;i<G.vexnum;i++){
         if(G.Edge[loc][i])
-            return i;
+            return G.Vex[i];
     }
     return -1;
 }
@@ -225,7 +225,7 @@ int NextNeighbor(MGraph G, char x, char y) {
     else
         for(int i = locy+1;i < G.vexnum;i++){
             if(G.Edge[locx][i])
-                return i;
+                return G.Vex[i];
         }
     return -1;
 }

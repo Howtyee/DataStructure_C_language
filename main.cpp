@@ -30,6 +30,12 @@ int main()
     AddEdge(t,'A','C');
     Print_MGraph(t);
     cout << t.arcnum << " " << t.vexnum << endl;
+    AddEdge(t,'A','D');
+    Print_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
+    RemoveEdge(t,'A','C');
+    Print_MGraph(t);
+    cout << t.arcnum << " " << t.vexnum << endl;
 
 
 

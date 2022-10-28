@@ -249,28 +249,27 @@ Status DeleteVertex(ALGraph &G, char x) {
 Status AddEdge(ALGraph &G, char a, char b, bool Dir = false ,int k=1) {
     int loc_a = LocateVex(G,a);
     int loc_b = LocateVex(G,b);
+    ArcNode * edge = G.vertices[loc_a].first;
+    if(edge == nullptr){
+        ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+        new_one->adjvex =loc_b;
+        new_one->next = nullptr;
+        new_one->k = k;
+        G.vertices[loc_a].first = new_one;
+        G.arcnum++;
+    }
+    else{
+        while(edge->next != nullptr){
+            edge = edge->next;
+        }
+        ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
+        new_one->adjvex =loc_b;
+        new_one->next = nullptr;
+        new_one->k = k;
+        edge->next = new_one;
+        G.arcnum++;
+    }
     if(!Dir){
-        ArcNode * edge = G.vertices[loc_a].first;
-        if(edge == nullptr){
-            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
-            new_one->adjvex =loc_b;
-            new_one->next = nullptr;
-            new_one->k = k;
-            G.vertices[loc_a].first = new_one;
-            G.vexnum++;
-        }
-        else{
-            while(edge->next!= nullptr){
-                edge = edge->next;
-            }
-            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
-            new_one->adjvex =loc_b;
-            new_one->next = nullptr;
-            new_one->k = k;
-            edge->next = new_one;
-            G.vexnum++;
-        }
-
         ArcNode * edge2 = G.vertices[loc_b].first;
         if(edge2 == nullptr){
             ArcNode * new_two = (ArcNode*) malloc(sizeof(ArcNode));
@@ -278,10 +277,10 @@ Status AddEdge(ALGraph &G, char a, char b, bool Dir = false ,int k=1) {
             new_two->next = nullptr;
             new_two->k = k;
             G.vertices[loc_b].first = new_two;
-            G.vexnum++;
+            G.arcnum++;
         }
         else{
-            while(edge2->next!= nullptr){
+            while(edge2!= nullptr){
                 edge2 = edge2->next;
             }
             ArcNode * new_two = (ArcNode*) malloc(sizeof(ArcNode));
@@ -289,32 +288,54 @@ Status AddEdge(ALGraph &G, char a, char b, bool Dir = false ,int k=1) {
             new_two->next = nullptr;
             new_two->k = k;
             edge2->next = new_two;
-            G.vexnum++;
-        }
-    }
-    else{
-        ArcNode * edge = G.vertices[loc_a].first;
-        if(edge == nullptr){
-            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
-            new_one->adjvex =loc_b;
-            new_one->next = nullptr;
-            new_one->k = k;
-            G.vertices[loc_a].first = new_one;
-            G.vexnum++;
-        }
-        else{
-            while(edge->next!= nullptr){
-                edge = edge->next;
-            }
-            ArcNode * new_one = (ArcNode*) malloc(sizeof(ArcNode));
-            new_one->adjvex =loc_b;
-            new_one->next = nullptr;
-            new_one->k = k;
-            edge->next = new_one;
-            G.vexnum++;
+            G.arcnum++;
         }
     }
 
+    return 0;
+}
+
+Status RemoveEdge(ALGraph &G, char a, char b, bool Dir=false) {
+    int loc_a = LocateVex(G,a);
+    int loc_b = LocateVex(G,b);
+    ArcNode * edge = G.vertices[loc_a].first;
+    while(edge!= nullptr && edge->adjvex == loc_b){ //如果有第一个节点且第一个节点要被删，删第一个
+        ArcNode * p = edge;
+        G.vertices[loc_a].first = edge->next;
+        edge = edge->next;
+        free(p);
+    }
+    edge = G.vertices[loc_a].first;
+    while(edge!= nullptr && edge->next!= nullptr){//如果有第一个节点但第一个节点不用被删，检查之后的节点
+        if(edge->next->adjvex == loc_b){
+            ArcNode * p = edge->next;
+            edge->next = edge->next->next;
+            free(p);
+            G.arcnum--;
+        }
+        else
+            edge = edge->next;
+        }
+    if(!Dir){
+        ArcNode * edge = G.vertices[loc_b].first;
+        while(edge!= nullptr && edge->adjvex == loc_a){ //如果有第一个节点且第一个节点要被删，删第一个
+            ArcNode * p = edge;
+            G.vertices[loc_b].first = edge->next;
+            edge = edge->next;
+            free(p);
+        }
+        edge = G.vertices[loc_b].first;
+        while(edge!= nullptr && edge->next!= nullptr){//如果有第一个节点但第一个节点不用被删，检查之后的节点
+            if(edge->next->adjvex == loc_a){
+                ArcNode * p = edge->next;
+                edge->next = edge->next->next;
+                free(p);
+                G.arcnum--;
+            }
+            else
+                edge = edge->next;
+        }
+    }
     return 0;
 }
 

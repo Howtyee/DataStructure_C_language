@@ -6,18 +6,35 @@
 #define HTY_MYGRAPH_MATRIX_H
 
 #include <cstdio>
+#include <cstdlib>
 
 #define MaxVertexNum 100
 
 #define Status int
+typedef char VerTexType;
+/*************   辅助数据结构   ****************/
+typedef struct LinkNode{
+    VerTexType data;
+    LinkNode *next;
+}LinkNode;
+
+typedef struct{
+    LinkNode *front,*rear;
+}LinkQueue;
 /*************   数据结构   ****************/
 
-typedef char VerTexType;
+
 typedef struct {
     VerTexType Vex[MaxVertexNum] = {};
     int Edge[MaxVertexNum][MaxVertexNum] = {0};
     int vexnum,arcnum;
 }MGraph;
+/*************   辅助声明   ****************/
+
+Status InitQueue(LinkQueue &Q);
+bool QueueEmpty(LinkQueue Q);
+Status EnQueue(LinkQueue &Q,VerTexType x);
+Status DeQueue(LinkQueue &Q,VerTexType &x);
 /*************   声明   ****************/
 int LocateVex(MGraph G,char vex);
 Status Creat_MGraph(MGraph &G,bool Dir,bool Kon); //Dir:是有向图 Kon:带权重
@@ -34,8 +51,46 @@ int NextNeighbor(MGraph G,char x,char y);
 int Get_edge_value(MGraph &G,char x,char y);
 Status Set_edge_value(MGraph &G,char x,char y,int v,bool Dir);
 
+void BFS_one(MGraph G,char x);
+void BFS_all(MGraph G);
 
+/*************   辅助定义   ****************/
 
+Status InitQueue(LinkQueue &Q) {
+    Q.front = (LinkNode*)malloc(sizeof(LinkNode));
+    Q.rear = Q.front;
+    Q.front->next = nullptr;
+    return 0;
+}
+
+bool QueueEmpty(LinkQueue Q) {
+    if(Q.front == Q.rear)
+        return true;
+    else
+        return false;
+}
+
+Status EnQueue(LinkQueue &Q, VerTexType x) {
+    LinkNode * new_one = (LinkNode*) malloc(sizeof(LinkNode));
+    new_one->data = x;
+    new_one->next = nullptr;
+    Q.rear->next = new_one;
+    Q.rear = new_one;
+    return 0;
+}
+
+Status DeQueue(LinkQueue &Q, VerTexType &x) {
+    if(QueueEmpty(Q))
+        return 1;
+    LinkNode * temp = Q.front->next;
+    if(temp == Q.rear){
+        Q.rear = Q.front;
+    }
+    Q.front->next = Q.front->next->next;
+    x = temp->data;
+    free(temp);
+    return 0;
+}
 /*************   定义   ****************/
 int LocateVex(MGraph G,char vex) {
     for (int i = 0; i < G.vexnum; i++) {
@@ -247,6 +302,38 @@ Status Set_edge_value(MGraph &G, char x, char y, int v, bool Dir) {
     else
         G.Edge[locx][locy] = v;
     return 0;
+}
+
+void BFS_one(MGraph G,char x,bool * visited,LinkQueue &Q) {
+    printf("%c ",x);
+    visited[LocateVex(G,x)] = true;
+    EnQueue(Q,x);
+    while(!QueueEmpty(Q)){
+        DeQueue(Q,x);
+        for(VerTexType w = G.Vex[FirstNeighbor(G,x)];w!='\0';w= G.Vex[NextNeighbor(G,x,w)]){
+            if(!visited[w]){
+                printf("%c",w);
+                visited[LocateVex(G,w)] = true;
+                EnQueue(Q,w);
+            }
+        }
+    }
+
+}
+
+void BFS_all(MGraph G) {
+    bool visited[G.vexnum];
+    for(int i = 0;i<G.vexnum;i++){
+        visited[i] = false;
+    } //初始化这个标记数组
+    LinkQueue Q;
+    InitQueue(Q);
+    for(int i=0;i<G.vexnum;i++){
+        if(!visited[i]){
+            BFS_one(G,G.Vex[i],visited,Q);
+        }
+    }
+
 }
 
 

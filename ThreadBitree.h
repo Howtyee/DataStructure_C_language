@@ -187,7 +187,10 @@ ThreadBiTreeNode *Nextnode(ThreadBiTreeNode *p){
         return p->rchild;
 }
 
-Status Print_Thread(ThreadBiTree T) {
+Status Print_Thread(ThreadBiTreeNode *T) {
+    for(ThreadBiTreeNode *p = Firstnode(T);p!= nullptr;p= Nextnode(p)){
+        printf("%d",p->data);
+    }
 
     return 0;
 }

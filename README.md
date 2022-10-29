@@ -190,7 +190,16 @@
      bool QueueEmpty(LinkQueue Q);
      Status EnQueue(LinkQueue &Q, ThreadBiTreeNode* x);
      Status DeQueue(LinkQueue &Q, ThreadBiTreeNode* &x);
+
+
      
+     /*************   声明   ****************/
+        
+        
+     Status Create_Level(ThreadBiTree &T);   //层次建立
+     Status Print_Level(ThreadBiTree T);     //层次遍历
+     Status CreatInThread(ThreadBiTree &T);
+     Status Print_Thread(ThreadBiTree T);
      ```
 
      
